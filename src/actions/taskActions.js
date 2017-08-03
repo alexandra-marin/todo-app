@@ -6,7 +6,15 @@ export function createTask(task) {
 }
 
 export function loadTasksSuccess(tasks) {
-	return { type: types.LOAD_COURSES_SUCCESS, tasks: tasks };
+	return { type: types.LOAD_TASKS_SUCCESS, tasks: tasks };
+}
+
+export function updateTaskSuccess(tasks) {
+	return { type: types.UPDATE_TASK_SUCCESS, tasks: tasks };
+}
+
+export function createTaskSuccess(tasks) {
+	return { type: types.CREATE_TASK_SUCCESS, tasks: tasks };
 }
 
 export function loadTasks() {
@@ -15,6 +23,21 @@ export function loadTasks() {
 			.getAllTasks()
 			.then(tasks => {
 				dispatch(loadTasksSuccess(tasks));
+			})
+			.catch(err => {
+				throw err;
+			});
+	};
+}
+
+export function saveTask(task) {
+	return function(dispatch, getState) {
+		return taskApi
+			.saveTask(task)
+			.then(saved => {
+                saved.id ?
+                dispatch(updateTaskSuccess(saved)) :
+                dispatch(createTaskSuccess(saved))
 			})
 			.catch(err => {
 				throw err;

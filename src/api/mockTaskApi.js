@@ -27,13 +27,11 @@ const tasks = [
 	}
 ];
 
-function replaceAll(str, find, replace) {
-	return str.replace(new RegExp(find, "g"), replace);
-}
+let id = 3;
 
 //This would be performed on the server in a real app. Just stubbing in.
 const generateId = task => {
-	return replaceAll(tasks.title, " ", "-");
+	return ++id;
 };
 
 class CourseApi {
