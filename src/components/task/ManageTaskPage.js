@@ -4,7 +4,7 @@ import { bindActionCreators } from "redux";
 import * as taskActions from "../../actions/taskActions";
 import * as userActions from "../../actions/userActions";
 import TaskForm from "./TaskForm";
-// import {authorsFormattedForDropdown} from '../../selectors/selectors';
+import { mapNames } from "../../selectors/nameSelector";
 import toastr from "toastr";
 
 export class ManageTaskPage extends React.Component {
@@ -34,34 +34,35 @@ export class ManageTaskPage extends React.Component {
 		return this.setState({ task: task });
 	}
 
-	//   courseFormIsValid() {
-	//     let formIsValid = true;
-	//     let errors = {};
+	formIsValid() {
+		let formIsValid = true;
+		let errors = {};
 
-	//     if (this.state.task.title.length < 5) {
-	//       errors.title = 'Title must be at least 5 characters.';
-	//       formIsValid = false;
-	//     }
+		if (!this.state.task.title || this.state.task.title.length < 5) {
+			errors.title = "Title must be at least 5 characters.";
+			formIsValid = false;
+		}
 
-	//     this.setState({errors: errors});
-	//     return formIsValid;
-	//   }
+		this.setState({ errors: errors });
+		return formIsValid;
+	}
 
 	saveTask(event) {
 		event.preventDefault();
 
-		// if (!this.courseFormIsValid()) {
-		// 	return;
-		// }
+		if (!this.formIsValid()) {
+			return;
+		}
 
 		this.setState({ saving: true });
 
-		this.props.actions.saveTask(this.state.task)
-		.then(() => this.redirect())
-		.catch(error => {
-			toastr.error(error);
-			this.setState({ saving: false });
-		});
+		this.props.actions
+			.saveTask(this.state.task)
+			.then(() => this.redirect())
+			.catch(error => {
+				toastr.error(error);
+				this.setState({ saving: false });
+			});
 	}
 
 	redirect() {
@@ -112,12 +113,7 @@ function mapStateToProps(state, ownProps) {
 
 	return {
 		task: task,
-		users: state.users.map(u => {
-			return {
-				value: u.id,
-				text: u.firstName
-			};
-		})
+		users: mapNames(state.users)
 	};
 }
 
