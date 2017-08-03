@@ -2,6 +2,7 @@ import React, { PropTypes } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as taskActions from "../../actions/taskActions";
+import TaskList from './TaskList';
 import { browserHistory } from "react-router";
 
 class TasksPage extends React.Component {
@@ -22,6 +23,11 @@ class TasksPage extends React.Component {
 			</div>
 		);
 	}
+
+	//   redirectToAddCoursePage() {
+	//     browserHistory.push('/course');
+	//   }
+
 	onChangeTitle(event) {
 		const task = this.state.task;
 		task.title = event.target.value;
@@ -31,15 +37,16 @@ class TasksPage extends React.Component {
 	}
 
 	onSave(event) {
-		this.props.actions.createTask(this.state.task);
-	}
+        this.props.actions.createTask(this.state.task)
+    }
 
 	render() {
 		return (
 			<div>
 				<h1>Tasks</h1>
 				<hr />
-				{this.props.tasks.map(this.taskRow)}
+				<h2>Task List</h2>
+				<TaskList tasks={this.props.tasks}/> 
 				<hr />
 				<h2>Add new task</h2>
 				<input
@@ -49,7 +56,7 @@ class TasksPage extends React.Component {
 				/>
 				<input
 					type="submit"
-					value="Add Course"
+					value="Add Task"
 					className="btn btn-primary"
 					onClick={this.onSave}
 				/>
@@ -59,13 +66,13 @@ class TasksPage extends React.Component {
 }
 
 TasksPage.propTypes = {
-	tasks: PropTypes.array.isRequired,
-	actions: PropTypes.object.isRequired
+  tasks: PropTypes.array.isRequired,
+  actions: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state, ownProps) {
 	return {
-		tasks: state.tasks
+        tasks: state.tasks
 	};
 }
 
