@@ -56,14 +56,12 @@ export class ManageTaskPage extends React.Component {
 
 		this.setState({ saving: true });
 
-		this.props.actions.saveTask(this.state.task);
-		// .then(() => this.redirect())
-		// .catch(error => {
-		// 	toastr.error(error);
-		// 	this.setState({ saving: false });
-		// });
-
-		this.redirect();
+		this.props.actions.saveTask(this.state.task)
+		.then(() => this.redirect())
+		.catch(error => {
+			toastr.error(error);
+			this.setState({ saving: false });
+		});
 	}
 
 	redirect() {

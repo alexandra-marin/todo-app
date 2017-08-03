@@ -1,4 +1,5 @@
 export default {
 	tasks: [],
-	users: []
+    users: [],
+    callsInProgress: 0
 };

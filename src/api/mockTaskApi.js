@@ -48,8 +48,8 @@ class CourseApi {
 		return new Promise((resolve, reject) => {
 			setTimeout(() => {
 				// Simulate server-side validation
-				const minTitleLength = 1;
-				if (task.title.length < minTitleLength) {
+				const minTitleLength = 3;
+				if (task.title === undefined || task.title.length < minTitleLength) {
 					reject(
 						`Title must be at least ${minTitleLength} characters.`
 					);

@@ -1,4 +1,5 @@
 import * as types from "./actionTypes";
+import { beginAjaxCall, ajaxCallError } from "./ajaxStatusActions";
 import taskApi from "../api/mockTaskApi";
 
 export function createTask(task) {
@@ -19,12 +20,14 @@ export function createTaskSuccess(tasks) {
 
 export function loadTasks() {
 	return function(dispatch) {
+		dispatch(beginAjaxCall());
 		return taskApi
 			.getAllTasks()
 			.then(tasks => {
 				dispatch(loadTasksSuccess(tasks));
 			})
 			.catch(err => {
+				dispatch(ajaxCallError());
 				throw err;
 			});
 	};
@@ -32,14 +35,16 @@ export function loadTasks() {
 
 export function saveTask(task) {
 	return function(dispatch, getState) {
+		dispatch(beginAjaxCall());
 		return taskApi
 			.saveTask(task)
 			.then(saved => {
-                saved.id ?
-                dispatch(updateTaskSuccess(saved)) :
-                dispatch(createTaskSuccess(saved))
+				saved.id
+					? dispatch(updateTaskSuccess(saved))
+					: dispatch(createTaskSuccess(saved));
 			})
 			.catch(err => {
+				dispatch(ajaxCallError());
 				throw err;
 			});
 	};
