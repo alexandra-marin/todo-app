@@ -1,4 +1,4 @@
-# React Demo
+# ReactJS Demo
 
 ### React-Redux Starter
 
