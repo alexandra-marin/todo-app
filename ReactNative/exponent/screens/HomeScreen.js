@@ -12,21 +12,17 @@ import { WebBrowser } from "expo";
 
 import { MonoText } from "../components/StyledText";
 import TaskList from "../components/TaskList";
+import dataStore from "../store/taskStore";
 
 export default class HomeScreen extends React.Component {
 	constructor(props, context) {
 		super(props, context);
 		console.log(this.props);
-		this.state = {
-			todos: [
-				{
-					task: "Task1"
-				},
-				{
-					task: "Task2"
-				}
-			]
-		};
+		this.state = dataStore.getState();
+
+		dataStore.subscribe(() => {
+			this.setState(dataStore.getState());
+		});
 	}
 	static navigationOptions = {
 		title: "Tasks"
@@ -41,23 +37,21 @@ export default class HomeScreen extends React.Component {
 					<TaskList
 						nav={this.props.navigation}
 						todos={this.state.todos}
+                        filter={this.state.filter}
 						onDone={this.onDone.bind(this)}
-						onAddStarted={this.onAddStarted.bind(this)}
+						onToggle={this.onToggle.bind(this)}
 					/>
 				</ScrollView>
 			</View>
 		);
 	}
 
-	onAddStarted() {
-		console.log("hello");
-	}
-
 	onDone(task) {
-		console.log(task);
-		const filtered = this.state.todos.filter(x => x.task !== task.task);
-		console.log(filtered);
-		this.setState({ todos: filtered });
+		dataStore.dispatch({ type: "DELETE", task });
+    }
+    
+    onToggle(task) {
+		dataStore.dispatch({ type: "TOGGLE_STATE" });
 	}
 }
 

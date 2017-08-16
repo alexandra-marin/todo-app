@@ -4,12 +4,14 @@ import {
 	View,
 	ListView,
 	StyleSheet,
-	TouchableHighlight
+	TouchableHighlight,
+	Switch
 } from "react-native";
 
 import TaskRow from "./TaskRow";
 
 import { StackNavigator } from "react-navigation";
+import dataStore from "../store/taskStore";
 
 export default class TaskList extends React.Component {
 	constructor(props, context) {
@@ -19,7 +21,7 @@ export default class TaskList extends React.Component {
 		});
 
 		this.state = {
-            todos: this.props.todos,
+			todos: this.props.todos,
 			dataSource: ds.cloneWithRows(this.props.todos)
 		};
 	}
@@ -28,6 +30,17 @@ export default class TaskList extends React.Component {
 
 		return (
 			<View style={styles.container}>
+				<View style={styles.toggleRow}>
+					<Switch
+						value={this.props.filter !== "pending"}
+						onValueChange={this.props.onToggle}
+					/>
+					<Text style={styles.toggle}>
+						Showing: {this.props.todos.length} {this.props.filter}{" "}
+						tasks
+					</Text>
+				</View>
+
 				<ListView
 					dataSource={this.state.dataSource}
 					renderRow={rowData =>
@@ -47,7 +60,7 @@ export default class TaskList extends React.Component {
 	}
 
 	onSelect(task) {
-		this.props.todos.push(task);
+		dataStore.dispatch({ type: "ADD", task });
 		this.updateRows();
 	}
 
@@ -69,7 +82,8 @@ export default class TaskList extends React.Component {
 
 TaskList.propTypes = {
 	todos: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-	onAddStarted: React.PropTypes.func.isRequired
+	onDone: React.PropTypes.func.isRequired,
+	onToggle: React.PropTypes.func.isRequired
 };
 
 const styles = StyleSheet.create({
@@ -77,6 +91,14 @@ const styles = StyleSheet.create({
 		flex: 1,
 		backgroundColor: "#f7f7f7",
 		justifyContent: "flex-start"
+	},
+	toggleRow: {
+		flexDirection: "row",
+		padding: 20
+	},
+	toggle: {
+		fontSize: 20,
+		marginLeft: 20
 	},
 	button: {
 		height: 60,
