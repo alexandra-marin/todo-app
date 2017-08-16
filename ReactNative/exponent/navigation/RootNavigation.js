@@ -21,6 +21,7 @@ const RootStackNavigator = StackNavigator(
   {
     navigationOptions: () => ({
       headerTitleStyle: {
+        fontSize: 26,
         fontWeight: 'normal',
       },
     }),

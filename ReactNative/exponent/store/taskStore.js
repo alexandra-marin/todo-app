@@ -7,6 +7,14 @@ const tasks = [
 	},
 	{
 		task: "Task #2",
+		state: "pending"
+	},
+	{
+		task: "Task #3",
+		state: "done"
+	},
+	{
+		task: "Task #4",
 		state: "done"
 	}
 ];

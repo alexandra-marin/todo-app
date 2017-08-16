@@ -24,9 +24,6 @@ export default class HomeScreen extends React.Component {
 			this.setState(dataStore.getState());
 		});
 	}
-	static navigationOptions = {
-		title: "Tasks"
-	};
 	render() {
 		return (
 			<View style={styles.container}>
