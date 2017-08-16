@@ -12,6 +12,7 @@ import TaskRow from "./TaskRow";
 
 import { StackNavigator } from "react-navigation";
 import dataStore from "../store/taskStore";
+import { Button } from 'react-native-elements';
 
 export default class TaskList extends React.Component {
 	constructor(props, context) {
@@ -46,15 +47,17 @@ export default class TaskList extends React.Component {
 					renderRow={rowData =>
 						<TaskRow onDone={this.props.onDone} todo={rowData} />}
 				/>
-				<TouchableHighlight
-					style={styles.button}
-					onPress={() =>
+				<Button
+					raised
+					icon={{ name: "edit", size: 32 }}
+					buttonStyle={{ backgroundColor: "#f50", borderRadius: 10, marginBottom: 10 }}
+					textStyle={{ textAlign: "center" }}
+					title={`Add new task`}
+                    onPress={() =>
 						navigate("AddNew", {
 							onSelect: this.onSelect.bind(this)
 						})}
-				>
-					<Text style={styles.buttonText}>Add new task</Text>
-				</TouchableHighlight>
+				/>
 			</View>
 		);
 	}
