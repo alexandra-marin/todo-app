@@ -3,12 +3,19 @@ import React from 'react';
 import { StackNavigator } from 'react-navigation';
 
 import MainTabNavigator from './MainTabNavigator';
+import TaskForm from '../components/TaskForm';
 import registerForPushNotificationsAsync from '../api/registerForPushNotificationsAsync';
 
 const RootStackNavigator = StackNavigator(
   {
     Main: {
       screen: MainTabNavigator,
+    },
+     AddNew: {
+      screen: TaskForm,
+      navigationOptions: {
+		    title: "Add new task"
+	    }
     },
   },
   {
