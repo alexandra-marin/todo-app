@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Text, View, StyleSheet, TouchableHighlight } from "react-native";
 import { Button } from "react-native-elements";
 import { Icon } from "react-native-elements";
+import Colors from "./../constants/Colors";
 
 export default class TaskRow extends Component {
 	state = {};
@@ -12,9 +13,13 @@ export default class TaskRow extends Component {
 					{this.props.todo.task}
 				</Text>
 				<Icon
-					name="circular-graph"
-					type="entypo"
-					color="#f50"
+					name="done"
+					type="MaterialIcons"
+					color={
+						this.props.todo.state === "pending"
+							? Colors.regularText
+							: Colors.tintColor
+					}
 					onPress={() => this.props.onDone(this.props.todo)}
 				/>
 			</View>
@@ -32,18 +37,14 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		backgroundColor: "#fff",
 		justifyContent: "space-between",
-		margin: 10,
 		padding: 10,
 		borderWidth: 1,
 		borderColor: "#e7e7e7"
 	},
 	label: {
 		fontSize: 20,
-		fontWeight: "300"
-	},
-	doneBtn: {
-		borderRadius: 5,
-		backgroundColor: "#EAEAEA",
-		padding: 5
+        fontWeight: "300",
+        color: Colors.regularText,
+		padding: 10,
 	}
 });

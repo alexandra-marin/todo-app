@@ -1,63 +1,47 @@
 import React from "react";
-import {
-	Image,
-	Platform,
-	ScrollView,
-	StyleSheet,
-	Text,
-	TouchableOpacity,
-	View
-} from "react-native";
-import { ExpoLinksView } from "@expo/samples";
+import { StyleSheet, ScrollView } from "react-native";
+import { List, ListItem } from "react-native-elements";
+import dataStore from "../store/taskStore";
+import Colors from "./../constants/Colors";
 
 export default class LinksScreen extends React.Component {
-	static navigationOptions = {
-		title: "Links"
-	};
-
+	constructor(props, context) {
+		super(props, context);
+		console.log(this.props);
+		this.state = dataStore.getState();
+	}
 	render() {
 		return (
-			<View style={styles.container}>
-				<ScrollView style={styles.container}>
-					<ExpoLinksView />
-				</ScrollView>
-				<View style={styles.tabBarInfoContainer}>
-					<Text style={styles.tabBarInfoText}>Reminder!</Text>
-				</View>
-			</View>
+			<ScrollView>
+				<List containerStyle={styles.list}>
+					{this.state.allTodos.map((item, i) =>
+						<ListItem
+							titleStyle={styles.listItem}
+							key={i}
+							leftIcon={{
+								name: "circular-graph",
+								size: 32,
+								color: Colors.tintColor,
+								type: "entypo"
+							}}
+							title={item.task}
+							subtitle={"Status: " + item.state}
+						/>
+					)}
+				</List>
+			</ScrollView>
 		);
 	}
 }
 
 const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		paddingTop: 15,
-		backgroundColor: "#fff"
-	},
-	tabBarInfoContainer: {
-		position: "absolute",
-		bottom: 0,
-		left: 0,
-		right: 0,
-		...Platform.select({
-			ios: {
-				shadowColor: "black",
-				shadowOffset: { height: -3 },
-				shadowOpacity: 0.1,
-				shadowRadius: 3
-			},
-			android: {
-				elevation: 20
-			}
-		}),
-		alignItems: "center",
-		backgroundColor: "#fbfbfb",
-		paddingVertical: 20
-	},
-	tabBarInfoText: {
-		fontSize: 17,
-		color: "rgba(96,100,109, 1)",
-		textAlign: "center"
+	list: {
+        margin: 0,
+        padding: 0,
+        backgroundColor: Colors.regularBackground,
+    },
+	listItem: {
+		color: Colors.regularText,
+		fontSize: 22
 	}
 });

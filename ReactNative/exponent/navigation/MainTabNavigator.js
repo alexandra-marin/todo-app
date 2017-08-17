@@ -13,13 +13,13 @@ export default TabNavigator(
 		Home: {
 			screen: HomeScreen,
 			navigationOptions: {
-				title: "Doing"
+				title: "Current tasks"
 			}
 		},
 		Links: {
 			screen: LinksScreen,
 			navigationOptions: {
-				title: "Done"
+				title: "All tasks"
 			}
 		}
 	},
@@ -53,6 +53,10 @@ export default TabNavigator(
 		tabBarComponent: TabBarBottom,
 		tabBarPosition: "bottom",
 		animationEnabled: false,
-		swipeEnabled: false
+		swipeEnabled: false,
+		tabBarOptions: {
+			activeTintColor: Colors.tabIconSelected,
+			inactiveTintColor: Colors.regularText
+		}
 	}
 );

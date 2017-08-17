@@ -5,38 +5,43 @@ import {
 	View,
 	ListView,
 	StyleSheet,
-	TouchableHighlight
 } from "react-native";
 import { NavigationActions } from "react-navigation";
+import Colors from "./../constants/Colors";
+import { Button } from "react-native-elements";
 
 export default class TaskForm extends React.Component {
 	render() {
 		const nav = this.props.navigation;
 		return (
 			<View style={styles.container}>
-				<Text style={styles.getStartedText}>Add your task here:</Text>
+				<Text style={styles.getStartedText}>What's the next thing you have to do?</Text>
 				<TextInput
 					style={styles.input}
 					onChangeText={taskTitle => this.setState({ taskTitle })}
 				/>
-				<TouchableHighlight
-					style={styles.button}
+				<Button
+					raised
+					title={`Add it`}
+					icon={{ name: "done", size: 20 }}
+					buttonStyle={styles.button}
+					textStyle={styles.buttonText}
 					onPress={() => {
 						nav.state.params.onSelect({
 							task: this.state.taskTitle
 						});
 						nav.goBack();
 					}}
-				>
-					<Text style={styles.buttonText}>Add</Text>
-				</TouchableHighlight>
+				/>
 
-				<TouchableHighlight
-					style={styles.button}
+				<Button
+					raised
+					title={`Cancel`}
+					icon={{ name: "cancel", size: 20 }}
+					buttonStyle={styles.button}
+					textStyle={styles.buttonText}
 					onPress={() => nav.goBack()}
-				>
-					<Text style={styles.buttonText}>Cancel</Text>
-				</TouchableHighlight>
+				/>
 			</View>
 		);
 	}
@@ -49,32 +54,29 @@ const styles = StyleSheet.create({
 		justifyContent: "flex-start"
 	},
 	getStartedText: {
-        marginTop: 50,
-        marginLeft: 20,
-		fontSize: 21,
-		color: "rgba(96,100,109, 1)",
-		lineHeight: 24,
-        textAlign: "left",
+		margin: 20,
+		marginTop: 50,
+		fontSize: 22,
+		color: Colors.regularText,
+		textAlign: "center"
 	},
 	input: {
 		height: 60,
-		borderColor: "#D7d7d7",
+		borderRadius: 10,
+		borderColor: Colors.regularText,
 		borderWidth: 1,
 		margin: 20,
+		marginBottom: 80,
 		padding: 10
 	},
 	button: {
-		height: 60,
-		borderColor: "#05A5D1",
-		borderWidth: 2,
-		backgroundColor: "#333",
-		margin: 20,
-		justifyContent: "center",
-		alignItems: "center"
+		backgroundColor: Colors.tintColor,
+		borderRadius: 10,
+		marginBottom: 10,
+		padding: 20
 	},
 	buttonText: {
-		color: "#FAFAFA",
-		fontSize: 20,
-		fontWeight: "600"
+		color: Colors.noticeText,
+		textAlign: "center"
 	}
 });
